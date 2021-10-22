@@ -1,0 +1,5 @@
+PKG core
+S main
+S ast
+S lexer
+S parser

@@ -1,0 +1,8 @@
+*.cmi
+*.cmo
+.DS_Store
+lexer.ml
+parser.ml
+parser.mli
+parser.output
+whitespace
