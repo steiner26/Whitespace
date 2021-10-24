@@ -1,5 +1,6 @@
 open Ast
 open Lexer
+open Pretty
 
 let () = 
   let _ = 
@@ -28,4 +29,4 @@ let () =
         | _ -> let msg = Printexc.to_string e in 
           Printf.printf "Whitespace: Unexpected error occured - %s\n" msg; exit 1  
     in 
-  Printf.printf "%B\n" (statements = [EndProgram (1, 1)])
+  List.iter (fun stmt -> Printf.printf "%s\n" (string_of_stmt stmt)) statements;

@@ -35,7 +35,7 @@ type 'a stmt =
 | EndProgram of 'a
 | OutputCharacter of 'a
 | OutputNumber of 'a
-| ReacCharacter of 'a
+| ReadCharacter of 'a
 | ReadNumber of 'a
 
 (* statements are stored with the first statement at the head of the list *)

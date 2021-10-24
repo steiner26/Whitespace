@@ -1,5 +1,6 @@
 PKG core
 S main
 S ast
+S pretty
 S lexer
 S parser

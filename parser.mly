@@ -58,7 +58,7 @@ flow_controll_stmt:
 io_stmt:
   | TAB LINEFEED SPACE SPACE { OutputCharacter ($1) }
   | TAB LINEFEED SPACE TAB { OutputNumber ($1) }
-  | TAB LINEFEED TAB SPACE { ReacCharacter ($1) }
+  | TAB LINEFEED TAB SPACE { ReadCharacter ($1) }
   | TAB LINEFEED TAB TAB { ReadNumber ($1) }
 
 number: 
@@ -74,7 +74,6 @@ sign:
 bits: 
   | bits bit { $2 :: $1 }
   | { [] }
-  
 
 bit: 
   | SPACE { Zero }

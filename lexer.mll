@@ -6,20 +6,11 @@ exception LexingError of string
 let lineno = ref 1
 let colno = ref 1
 
-let process_token token = 
-  let () = match token with 
-    | SPACE _ 
-    | TAB _ ->  colno := succ !colno;
-    | LINEFEED _ -> colno := 1; lineno := succ !lineno;
-    | EOF -> () in 
-    token
-    
+let incr_lineno () = colno := 1; lineno := succ !lineno
 
-let incr_lineno () : unit = 
-  lineno := succ !lineno
+let incr_colno () = colno := succ !colno
 
-let info () = 
-  (!lineno, !colno)
+let info () = (!lineno, !colno)
 
 let error lexbuf =
   let (l, c) = info () in
@@ -31,11 +22,12 @@ let error lexbuf =
 
 let space = ' '
 let tab = '\t'
-let linefeed = '\n'
+let linefeed1 = '\n' 
+let linefeed2 = "\r\n"
 
 rule token = parse 
-  | space { process_token (SPACE (info ())) }
-  | tab { process_token (TAB (info ())) }
-  | linefeed { process_token (LINEFEED (info ())) }
-  | eof { process_token EOF }
-  | _ { error lexbuf }
+  | space { incr_colno (); SPACE (info ()) }
+  | tab { incr_colno (); TAB (info ()) }
+  | linefeed1 | linefeed2 { incr_lineno (); LINEFEED (info ()) }
+  | eof { EOF }
+  | _ {incr_colno (); token lexbuf }
