@@ -1,5 +1,3 @@
-type info = (int * int)
-
 type sign = 
   | Positive
   | Negative
@@ -12,31 +10,31 @@ type bit =
 type number = sign * bit list
 type label = bit list
 
-type 'a stmt = 
-| Push of number * 'a 
-| Duplicate of 'a
-| Copy of number * 'a
-| Swap of 'a
-| Discard of 'a
-| Slide of number * 'a
-| Add of 'a
-| Subtract of 'a
-| Multiply of 'a
-| Divide of 'a
-| Modulo of 'a
-| Store of 'a
-| Retrieve of 'a
-| Mark of label * 'a
-| Call of label * 'a
-| Jump of label * 'a
-| JumpIfZero of label * 'a
-| JumpIfNegative of label * 'a
-| EndSubroutine of 'a
-| EndProgram of 'a
-| OutputCharacter of 'a
-| OutputNumber of 'a
-| ReadCharacter of 'a
-| ReadNumber of 'a
+type stmt = 
+| Push of number 
+| Duplicate 
+| Copy of number
+| Swap 
+| Discard 
+| Slide of number
+| Add 
+| Subtract 
+| Multiply 
+| Divide 
+| Modulo 
+| Store
+| Retrieve 
+| Mark of label
+| Call of label
+| Jump of label
+| JumpIfZero of label
+| JumpIfNegative of label
+| EndSubroutine 
+| EndProgram 
+| OutputCharacter 
+| OutputNumber 
+| ReadCharacter 
+| ReadNumber 
 
 (* statements are stored with the first statement at the head of the list *)
-type 'a program = 'a stmt list
+type  program =  stmt list

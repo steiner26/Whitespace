@@ -2,12 +2,12 @@
 open Ast
 %}
 
-%token <Ast.info> SPACE 
-%token <Ast.info> TAB 
-%token <Ast.info> LINEFEED
+%token SPACE 
+%token TAB 
+%token LINEFEED
 %token EOF
 
-%type <Ast.info Ast.program> program
+%type <Ast.program> program
 
 %start program 
 
@@ -28,38 +28,38 @@ stmt:
   | io_stmt { $1 }
 
 stack_manipulation_stmt:
-  | SPACE SPACE number { Push ($3, $1) }
-  | SPACE LINEFEED SPACE { Duplicate ($1) }
-  | SPACE TAB SPACE number { Copy ($4, $1) }
-  | SPACE LINEFEED TAB { Swap ($1) }
-  | SPACE LINEFEED LINEFEED { Discard ($1) }
-  | SPACE TAB LINEFEED number { Slide ($4, $1) }
+  | SPACE SPACE number { Push $3 }
+  | SPACE LINEFEED SPACE { Duplicate }
+  | SPACE TAB SPACE number { Copy $4 }
+  | SPACE LINEFEED TAB { Swap }
+  | SPACE LINEFEED LINEFEED { Discard }
+  | SPACE TAB LINEFEED number { Slide $4 }
 
 arithmetic_stmt:
-  | TAB SPACE SPACE SPACE { Add ($1) }
-  | TAB SPACE SPACE TAB { Subtract ($1) }
-  | TAB SPACE SPACE LINEFEED { Multiply ($1) }
-  | TAB SPACE TAB SPACE { Divide ($1) }
-  | TAB SPACE TAB TAB { Modulo ($1) }
+  | TAB SPACE SPACE SPACE { Add }
+  | TAB SPACE SPACE TAB { Subtract }
+  | TAB SPACE SPACE LINEFEED { Multiply }
+  | TAB SPACE TAB SPACE { Divide }
+  | TAB SPACE TAB TAB { Modulo }
 
 heap_access_stmt:
-  | TAB TAB SPACE { Store ($1) }
-  | TAB TAB TAB { Retrieve ($1) }
+  | TAB TAB SPACE { Store }
+  | TAB TAB TAB { Retrieve }
 
 flow_controll_stmt:
-  | LINEFEED SPACE SPACE label { Mark ($4, $1) }
-  | LINEFEED SPACE TAB label { Call ($4, $1) }
-  | LINEFEED SPACE LINEFEED label { Jump ($4, $1) }
-  | LINEFEED TAB SPACE label { JumpIfZero ($4, $1) }
-  | LINEFEED TAB TAB label { JumpIfNegative ($4, $1) }
-  | LINEFEED TAB LINEFEED { EndSubroutine ($1) }
-  | LINEFEED LINEFEED LINEFEED { EndProgram ($1) }
+  | LINEFEED SPACE SPACE label { Mark $4 }
+  | LINEFEED SPACE TAB label { Call $4 }
+  | LINEFEED SPACE LINEFEED label { Jump $4 }
+  | LINEFEED TAB SPACE label { JumpIfZero $4 }
+  | LINEFEED TAB TAB label { JumpIfNegative $4 }
+  | LINEFEED TAB LINEFEED { EndSubroutine }
+  | LINEFEED LINEFEED LINEFEED { EndProgram }
 
 io_stmt:
-  | TAB LINEFEED SPACE SPACE { OutputCharacter ($1) }
-  | TAB LINEFEED SPACE TAB { OutputNumber ($1) }
-  | TAB LINEFEED TAB SPACE { ReadCharacter ($1) }
-  | TAB LINEFEED TAB TAB { ReadNumber ($1) }
+  | TAB LINEFEED SPACE SPACE { OutputCharacter }
+  | TAB LINEFEED SPACE TAB { OutputNumber }
+  | TAB LINEFEED TAB SPACE { ReadCharacter }
+  | TAB LINEFEED TAB TAB { ReadNumber }
 
 number: 
   | sign bits LINEFEED { ($1, $2) }

@@ -10,12 +10,9 @@ let incr_lineno () = colno := 1; lineno := succ !lineno
 
 let incr_colno () = colno := succ !colno
 
-let info () = (!lineno, !colno)
-
 let error lexbuf =
-  let (l, c) = info () in
   let t = Lexing.lexeme lexbuf in
-  let s = Printf.sprintf "line %d, character %d" l (c-1) in 
+  let s = Printf.sprintf "line %d, character %d" !lineno (!colno-1) in 
   let err = Printf.sprintf "%s: lexing error at '%s'\n" s t in 
   raise (LexingError err)
 }
@@ -26,8 +23,8 @@ let linefeed1 = '\n'
 let linefeed2 = "\r\n"
 
 rule token = parse 
-  | space { incr_colno (); SPACE (info ()) }
-  | tab { incr_colno (); TAB (info ()) }
-  | linefeed1 | linefeed2 { incr_lineno (); LINEFEED (info ()) }
+  | space { incr_colno (); SPACE }
+  | tab { incr_colno (); TAB }
+  | linefeed1 | linefeed2 { incr_lineno (); LINEFEED }
   | eof { EOF }
   | _ {incr_colno (); token lexbuf }

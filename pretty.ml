@@ -54,47 +54,47 @@ let name_of_stmt stmt =
     | Jump _ -> "Jump"
     | JumpIfZero _ -> "Jump if Zero"
     | JumpIfNegative _ -> "Jump if Negative"
-    | Duplicate _ -> "Duplicate"
-    | Swap _ -> "Swap"
-    | Discard _ -> "Discard"
-    | Add _ -> "Add"
-    | Subtract _ -> "Subtract"
-    | Multiply _ -> "Multiply"
-    | Divide _ -> "Divide"
-    | Modulo _ -> "Modulo"
-    | Store _ -> "Store"
-    | Retrieve _ -> "Retrieve"
-    | EndSubroutine _ -> "End Subroutine"
-    | EndProgram _ -> "End Program"
-    | OutputCharacter _ -> "Output Character"
-    | OutputNumber _ -> "Output Number"
-    | ReadCharacter _ -> "Read Character"
-    | ReadNumber _ -> "Read Number"
+    | Duplicate -> "Duplicate"
+    | Swap -> "Swap"
+    | Discard -> "Discard"
+    | Add -> "Add"
+    | Subtract -> "Subtract"
+    | Multiply -> "Multiply"
+    | Divide -> "Divide"
+    | Modulo -> "Modulo"
+    | Store -> "Store"
+    | Retrieve -> "Retrieve"
+    | EndSubroutine -> "End Subroutine"
+    | EndProgram -> "End Program"
+    | OutputCharacter -> "Output Character"
+    | OutputNumber -> "Output Number"
+    | ReadCharacter -> "Read Character"
+    | ReadNumber -> "Read Number"
 
 let string_of_stmt stmt = 
   let name = name_of_stmt stmt in 
   match stmt with 
-    | Push (number, _) -> Printf.sprintf "%s %s (%s)" name (string_of_number number) (character_of_number number )
-    | Copy (number, _) 
-    | Slide (number, _) -> Printf.sprintf "%s %s" name (string_of_number number)
-    | Mark (label, _) 
-    | Call (label, _)
-    | Jump (label, _)
-    | JumpIfZero (label, _)
-    | JumpIfNegative (label, _) -> Printf.sprintf "%s %s" name (string_of_label label)
-    | Duplicate _ 
-    | Swap _ 
-    | Discard _ 
-    | Add _ 
-    | Subtract _ 
-    | Multiply _ 
-    | Divide _ 
-    | Modulo _ 
-    | Store _ 
-    | Retrieve _ 
-    | EndSubroutine _ 
-    | EndProgram _ 
-    | OutputCharacter _ 
-    | OutputNumber _ 
-    | ReadCharacter _ 
-    | ReadNumber _ -> name
+    | Push number -> Printf.sprintf "%s %s (%s)" name (string_of_number number) (character_of_number number )
+    | Copy number 
+    | Slide number -> Printf.sprintf "%s %s" name (string_of_number number)
+    | Mark label 
+    | Call label
+    | Jump label
+    | JumpIfZero label
+    | JumpIfNegative label -> Printf.sprintf "%s %s" name (string_of_label label)
+    | Duplicate
+    | Swap
+    | Discard
+    | Add
+    | Subtract
+    | Multiply
+    | Divide
+    | Modulo
+    | Store
+    | Retrieve
+    | EndSubroutine
+    | EndProgram
+    | OutputCharacter
+    | OutputNumber 
+    | ReadCharacter 
+    | ReadNumber -> name
