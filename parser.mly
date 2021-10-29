@@ -1,5 +1,33 @@
 %{
 open Ast
+
+let magnitude_of_bits = 
+  let rec helper value accm bits = 
+    match bits with 
+      | [] -> accm
+      | h::t -> helper (value * 2) (accm + h * value) t in
+  helper 1 0
+
+let value_of_number (sign, bits) = 
+  sign * magnitude_of_bits bits
+
+let string_of_label = 
+  let split_first_n list n = 
+    let rec split_helper list accm n = 
+      match n with 
+        | 0 -> (List.rev accm, list)
+        | _ -> match list with 
+          | [] -> (List.rev accm, [])
+          | h::t -> split_helper t (h::accm) (n-1) in
+    split_helper list [] n in 
+  let rec string_of_label_helper accm bits = 
+    let (h, t) = split_first_n bits 8 in 
+    let value = magnitude_of_bits h in 
+    let result = (Printf.sprintf "%c%s" (Char.chr value) accm) in 
+    match t with 
+      | [] -> String.escaped result 
+      | _ -> string_of_label_helper (Printf.sprintf "%c%s" (Char.chr value) accm) t
+  in string_of_label_helper "" 
 %}
 
 %token SPACE 
@@ -62,20 +90,20 @@ io_stmt:
   | TAB LINEFEED TAB TAB { ReadNumber }
 
 number: 
-  | sign bits LINEFEED { ($1, $2) }
+  | sign bits LINEFEED { value_of_number ($1, $2) }
 
 label:
-  | bits LINEFEED { $1 }  
+  | bits LINEFEED { string_of_label $1 }  
 
 sign: 
-  | SPACE { Positive }
-  | TAB { Negative }
+  | SPACE { 1 }
+  | TAB { -1 }
 
 bits: 
   | bits bit { $2 :: $1 }
   | { [] }
 
 bit: 
-  | SPACE { Zero }
-  | TAB { One }
+  | SPACE { 0 }
+  | TAB { 1 }
 

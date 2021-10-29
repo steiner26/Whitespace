@@ -1,22 +1,10 @@
-type sign = 
-  | Positive
-  | Negative
-
-type bit = 
-  | Zero
-  | One
-
-(* bits are stored with the least significant bit at the head of the list *)
-type number = sign * bit list
-type label = bit list
-
 type stmt = 
-| Push of number 
+| Push of int 
 | Duplicate 
-| Copy of number
+| Copy of int
 | Swap 
 | Discard 
-| Slide of number
+| Slide of int
 | Add 
 | Subtract 
 | Multiply 
@@ -24,11 +12,11 @@ type stmt =
 | Modulo 
 | Store
 | Retrieve 
-| Mark of label
-| Call of label
-| Jump of label
-| JumpIfZero of label
-| JumpIfNegative of label
+| Mark of string
+| Call of string
+| Jump of string
+| JumpIfZero of string
+| JumpIfNegative of string
 | EndSubroutine 
 | EndProgram 
 | OutputCharacter 
