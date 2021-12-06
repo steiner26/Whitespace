@@ -112,13 +112,13 @@ let rec eval_stmt stmt state is_subroutine =
     | OutputCharacter -> begin
       match state.stack with 
         | [] -> Error "No value on stack for Output Character command"
-        | v::vs -> try print_char (Char.chr v); Continue { state with stack = vs } 
+        | v::vs -> try print_char (Char.chr v); flush stdout; Continue { state with stack = vs } 
           with Invalid_argument _ -> Error "Value of Character is not valid"
       end
     | OutputNumber -> begin
       match state.stack with 
         | [] -> Error "No value on stack for Output Character command"
-        | v::vs -> print_int v; Continue { state with stack = vs } 
+        | v::vs -> print_int v; flush stdout; Continue { state with stack = vs } 
       end
     | ReadCharacter -> begin
       match state.stack with 
